@@ -1,5 +1,5 @@
 
-import MovieSummary from './MovieSummary'
+import MovieSummary from '../components/MovieSummary'
 
 function MovieList(props) {
     return (
