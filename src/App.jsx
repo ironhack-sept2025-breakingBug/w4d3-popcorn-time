@@ -8,6 +8,7 @@ import Contact from "./pages/Contact"
 import MovieList from "./pages/MovieList"
 
 import movies from './data/movies.json'
+import MovieDetails from "./components/MovieDetails"
 
 function App() {
 
@@ -34,6 +35,9 @@ function App() {
         <Route path="/" element={<MovieList moviesArr={moviesToDisplay} onDelete={deleteMovie} />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+
+        <Route path="/movies/:movieId" element={<MovieDetails moviesArr={moviesToDisplay} />} />
+
         <Route path="*" element={<h1>Page not found</h1>} />
       </Routes>
 
