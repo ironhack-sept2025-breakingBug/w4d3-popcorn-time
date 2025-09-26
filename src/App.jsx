@@ -13,6 +13,7 @@ import MovieDetails from "./components/MovieDetails"
 function App() {
 
   const [moviesToDisplay, setMoviesToDisplay] = useState(movies)
+  const [title, setTitle] = useState('')
 
 
   const deleteMovie = (movieId) => {
@@ -27,9 +28,43 @@ function App() {
   }
 
 
+  const handleSubmit = (e) => {
+    e.preventDefault(); // prevent page reload
+    
+    const newMovie = {
+      title: title
+    }
+
+    // prepare an array with the new list of movies
+    const newList = [newMovie, ...moviesToDisplay]
+
+    // update the list of movies
+    setMoviesToDisplay(newList)
+
+    // clear form
+    setTitle('')
+  }
+
+
   return (
     <>
       <Header numberOfMovies={moviesToDisplay.length} />
+
+      <section className="card">
+        <h2>Add your own movie:</h2>
+
+        <form onSubmit={handleSubmit}>
+          <input 
+            type="text" 
+            name="title" 
+            placeholder="enter the title" 
+            value={title} 
+            onChange={(e) => { setTitle(e.target.value) }}
+          />
+          <button>Create</button>
+        </form>
+
+      </section>
 
       <Routes>
         <Route path="/" element={<MovieList moviesArr={moviesToDisplay} onDelete={deleteMovie} />} />
