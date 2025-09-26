@@ -6,16 +6,37 @@ import Footer from "./components/Footer"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
 import MovieList from "./pages/MovieList"
+import AddMovie from "./pages/AddMovie"
 
 import movies from './data/movies.json'
 import MovieDetails from "./components/MovieDetails"
+
 
 function App() {
 
   const [moviesToDisplay, setMoviesToDisplay] = useState(movies)
 
-  const [title, setTitle] = useState('')
-  const [rating, setRating] = useState('')
+
+  const createMovie = (newMovieDetails) => {
+    // find the id of the new movie
+    const movieIds = moviesToDisplay.map((movieObj) => {
+      return movieObj.id
+    })
+    const maxId = Math.max(...movieIds)
+    const nextId = maxId + 1;
+
+    // prepare an object with the details of the new movie
+    const newMovie = {
+      ...newMovieDetails,
+      id: nextId
+    }
+
+    // prepare an array with the new list of movies
+    const newList = [newMovie, ...moviesToDisplay]
+
+    // update the list of movies
+    setMoviesToDisplay(newList)
+  }
 
 
   const deleteMovie = (movieId) => {
@@ -30,75 +51,13 @@ function App() {
   }
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // prevent page reload
-    
-    // find the id of the new movie
-    const movieIds = moviesToDisplay.map((movieObj) => {
-      return movieObj.id
-    })
-    const maxId = Math.max(...movieIds)
-    const nextId = maxId + 1;
-
-    const newMovie = {
-      title: title,
-      rating: rating,
-      id: nextId
-    }
-
-    // prepare an array with the new list of movies
-    const newList = [newMovie, ...moviesToDisplay]
-
-    // update the list of movies
-    setMoviesToDisplay(newList)
-
-    // clear form
-    setTitle('')
-    setRating('')
-  }
-
-
   return (
     <>
       <Header numberOfMovies={moviesToDisplay.length} />
 
-      <section className="card">
-        <h2>Add your own movie:</h2>
-
-        <form onSubmit={handleSubmit}>
-          
-          <label>
-            Title: 
-            <input 
-              type="text" 
-              name="title" 
-              required
-              placeholder="enter the title" 
-              value={title} 
-              onChange={(e) => { setTitle(e.target.value) }}
-            />
-          </label>
-
-          <label>
-            Rating: 
-            <input 
-              type="number"
-              name="rating"
-              required
-              min={1}
-              max={10}
-              value={rating}
-              onChange={(e) => { setRating(e.target.value) }}
-            />
-          </label>
-
-          <button>Create</button>
-        </form>
-
-      </section>
-
       <Routes>
         <Route path="/" element={<MovieList moviesArr={moviesToDisplay} onDelete={deleteMovie} />} />
+        <Route path="/create" element={<AddMovie onCreate={createMovie} />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
