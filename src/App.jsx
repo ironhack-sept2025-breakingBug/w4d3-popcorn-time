@@ -33,9 +33,17 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault(); // prevent page reload
     
+    // find the id of the new movie
+    const movieIds = moviesToDisplay.map((movieObj) => {
+      return movieObj.id
+    })
+    const maxId = Math.max(...movieIds)
+    const nextId = maxId + 1;
+
     const newMovie = {
       title: title,
-      rating: rating
+      rating: rating,
+      id: nextId
     }
 
     // prepare an array with the new list of movies
