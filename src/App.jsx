@@ -13,7 +13,9 @@ import MovieDetails from "./components/MovieDetails"
 function App() {
 
   const [moviesToDisplay, setMoviesToDisplay] = useState(movies)
+
   const [title, setTitle] = useState('')
+  const [rating, setRating] = useState('')
 
 
   const deleteMovie = (movieId) => {
@@ -32,7 +34,8 @@ function App() {
     e.preventDefault(); // prevent page reload
     
     const newMovie = {
-      title: title
+      title: title,
+      rating: rating
     }
 
     // prepare an array with the new list of movies
@@ -43,6 +46,7 @@ function App() {
 
     // clear form
     setTitle('')
+    setRating('')
   }
 
 
@@ -54,13 +58,32 @@ function App() {
         <h2>Add your own movie:</h2>
 
         <form onSubmit={handleSubmit}>
-          <input 
-            type="text" 
-            name="title" 
-            placeholder="enter the title" 
-            value={title} 
-            onChange={(e) => { setTitle(e.target.value) }}
-          />
+          
+          <label>
+            Title: 
+            <input 
+              type="text" 
+              name="title" 
+              required
+              placeholder="enter the title" 
+              value={title} 
+              onChange={(e) => { setTitle(e.target.value) }}
+            />
+          </label>
+
+          <label>
+            Rating: 
+            <input 
+              type="number"
+              name="rating"
+              required
+              min={1}
+              max={10}
+              value={rating}
+              onChange={(e) => { setRating(e.target.value) }}
+            />
+          </label>
+
           <button>Create</button>
         </form>
 
